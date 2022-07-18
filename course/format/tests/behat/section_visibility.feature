@@ -1,8 +1,8 @@
 @core @core_courseformat
-Feature: Varify section visibility interface.
+Feature: Verify section visibility interface.
   In order to edit the course sections visibility
   As a teacher
-  I need to be able to see the updateds visibility information
+  I need to be able to see the updated visibility information
 
   Background:
     Given the following "course" exists:
@@ -41,7 +41,20 @@ Feature: Varify section visibility interface.
     And I should not see "Hidden from students" in the "Activity sample 1" "activity"
 
   @javascript
-  Scenario: Hiden activities in hidden sections stay hidden when the section is shown.
+  Scenario: Hide all sections do hide them and also hides the activities.
+    When I hide all sections
+    Then I should see "Hidden from students" in the "Topic 1" "section"
+    And I should see "Hidden from students" in the "Activity sample 1" "activity"
+    And I should see "Hidden from students" in the "Topic 2" "section"
+    And I should see "Hidden from students" in the "Topic 3" "section"
+    When I show all sections
+    Then I should not see "Hidden from students" in the "Topic 1" "section"
+    And I should not see "Hidden from students" in the "Activity sample 1" "activity"
+    And I should not see "Hidden from students" in the "Topic 2" "section"
+    And I should not see "Hidden from students" in the "Topic 3" "section"
+
+  @javascript
+  Scenario: Hidden activities in hidden sections stay hidden when the section is shown.
     Given I open "Activity sample 1" actions menu
     And I click on "Hide" "link" in the "Activity sample 1" "activity"
     And I should see "Hidden from students" in the "Activity sample 1" "activity"

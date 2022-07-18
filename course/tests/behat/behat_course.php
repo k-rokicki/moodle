@@ -387,6 +387,74 @@ class behat_course extends behat_base {
     }
 
     /**
+     * Hides all sections. You need to be in the course page and on editing mode.
+     *
+     * @Given /^I hide all sections$/
+     */
+    public function i_hide_all_sections() {
+        $sectionnumber = 0;
+        // Ensures the zero section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        // We need to know the course format as the text strings depends on them.
+        $courseformat = $this->get_course_format();
+        if (get_string_manager()->string_exists('hideall', $courseformat)) {
+            $strhide = get_string('hideall', $courseformat);
+        } else {
+            return;
+        }
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
+        // Click on delete link.
+        $this->execute('behat_general::i_click_on_in_the',
+            array($strhide, "link", $this->escape($xpath), "xpath_element")
+        );
+
+        if ($this->running_javascript()) {
+            $this->getSession()->wait(self::get_timeout() * 1000, self::PAGE_READY_JS);
+            $this->i_wait_until_section_is_available($sectionnumber);
+        }
+    }
+
+    /**
+     * Shows all sections. You need to be in the course page and on editing mode.
+     *
+     * @Given /^I show all sections$/
+     */
+    public function i_show_all_sections() {
+        $sectionnumber = 0;
+        // Ensures the zero section exists.
+        $xpath = $this->section_exists($sectionnumber);
+
+        // We need to know the course format as the text strings depends on them.
+        $courseformat = $this->get_course_format();
+        if (get_string_manager()->string_exists('showall', $courseformat)) {
+            $strhide = get_string('showall', $courseformat);
+        } else {
+            return;
+        }
+
+        // If javascript is on, link is inside a menu.
+        if ($this->running_javascript()) {
+            $this->i_open_section_edit_menu($sectionnumber);
+        }
+
+        // Click on delete link.
+        $this->execute('behat_general::i_click_on_in_the',
+            array($strhide, "link", $this->escape($xpath), "xpath_element")
+        );
+
+        if ($this->running_javascript()) {
+            $this->getSession()->wait(self::get_timeout() * 1000, self::PAGE_READY_JS);
+            $this->i_wait_until_section_is_available($sectionnumber);
+        }
+    }
+
+    /**
      * Go to editing section page for specified section number. You need to be in the course page and on editing mode.
      *
      * @Given /^I edit the section "(?P<section_number>\d+)"$/
