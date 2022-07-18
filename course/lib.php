@@ -460,6 +460,29 @@ function set_section_visible($courseid, $sectionnumber, $visibility) {
 }
 
 /**
+ * For a given course, marks all of its sections visible or hidden,
+ * and does the same for every activity in every section
+ *
+ * @param int $courseid course id
+ * @param int $visibility The new visibility
+ * @return array A list of resources which were hidden in the section
+ */
+function set_all_sections_visible($courseid, $visibility) {
+    global $DB;
+
+    $resourcestotoggle = array();
+    $sections = $DB->get_records("course_sections", array("course" => $courseid));
+    foreach ($sections as $section) {
+        if ($section->section != 0) {
+            $newresources = set_section_visible($courseid, $section->section, $visibility);
+            $resourcestotoggle = array_merge($resourcestotoggle, $newresources);
+        }
+    }
+
+    return $resourcestotoggle;
+}
+
+/**
  * Return the course category context for the category with id $categoryid, except
  * that if $categoryid is 0, return the system context.
  *

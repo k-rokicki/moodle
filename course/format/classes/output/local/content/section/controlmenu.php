@@ -155,6 +155,33 @@ class controlmenu implements named_templatable, renderable {
             ];
         }
 
+        if ($section->section == 0
+            && !$isstealth
+            && has_capability('moodle/course:sectionvisibility', $coursecontext, $user)
+            && get_string_manager()->string_exists('hideall', 'format_'.$format->get_format())
+            && get_string_manager()->string_exists('showall', 'format_'.$format->get_format())) {
+                $url = clone($baseurl);
+                $strhideall = get_string('hideall', 'format_'.$course->format);
+                $url->param('hideall', 'true');
+                $controls['hideall'] = [
+                    'url' => $url,
+                    'icon' => 'i/show',
+                    'name' => $strhideall,
+                    'pixattr' => ['class' => ''],
+                    'attr' => ['class' => 'icon edit']
+                ];
+                $url = clone($baseurl);
+                $strshowall = get_string('showall', 'format_'.$course->format);
+                $url->param('showall', 'true');
+                $controls['showall'] = [
+                    'url' => $url,
+                    'icon' => 'i/hide',
+                    'name' => $strshowall,
+                    'pixattr' => ['class' => ''],
+                    'attr' => ['class' => 'icon edit']
+                ];
+        }
+
         if ($section->section) {
             $url = clone($baseurl);
             if (!$isstealth) {

@@ -11,6 +11,8 @@
     $edit        = optional_param('edit', -1, PARAM_BOOL);
     $hide        = optional_param('hide', 0, PARAM_INT);
     $show        = optional_param('show', 0, PARAM_INT);
+    $hideall     = optional_param('hideall', 0, PARAM_BOOL);
+    $showall     = optional_param('showall', 0, PARAM_BOOL);
     $idnumber    = optional_param('idnumber', '', PARAM_RAW);
     $sectionid   = optional_param('sectionid', 0, PARAM_INT);
     $section     = optional_param('section', 0, PARAM_INT);
@@ -178,9 +180,16 @@
                 set_section_visible($course->id, $hide, '0');
                 redirect($PAGE->url);
             }
-
             if ($show && confirm_sesskey()) {
                 set_section_visible($course->id, $show, '1');
+                redirect($PAGE->url);
+            }
+            if ($hideall && confirm_sesskey()) {
+                set_all_sections_visible($course->id, '0');
+                redirect($PAGE->url);
+            }
+            if ($showall && confirm_sesskey()) {
+                set_all_sections_visible($course->id, '1');
                 redirect($PAGE->url);
             }
         }
