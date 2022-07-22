@@ -277,6 +277,7 @@ $string['filtergrantedextension'] = 'Granted extension';
 $string['filternone'] = 'No filter';
 $string['filternotsubmitted'] = 'Not submitted';
 $string['filterrequiregrading'] = 'Requires grading';
+$string['filtergraded'] = 'Graded';
 $string['filtersubmitted'] = 'Submitted';
 $string['graded'] = 'Graded';
 $string['gradedby'] = 'Graded by';
